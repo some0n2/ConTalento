@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ConTalento - Curso Virtual</title>
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #0066cc;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #004999;
+    }
+
+    .video-list {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .video-list a {
+      display: block;
+      margin: 10px 0;
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .video-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Acceso al Curso Virtual</h1>
+    <p>Ingresa tu código de acceso</p>
+    <input type="password" id="codigo" placeholder="Ej. contalento2025">
+    <br>
+    <button onclick="verificarCodigo()">Ingresar</button>
+
+    <div class="video-list" id="videos">
+      <h2>Contenido del Curso</h2>
+      <a href="https://drive.google.com/file/d/ID_DEL_VIDEO1/view" target="_blank">📘 Video 1: Introducción</a>
+      <a href="https://drive.google.com/file/d/ID_DEL_VIDEO2/view" target="_blank">📗 Video 2: Control de gastos</a>
+      <a href="https://drive.google.com/file/d/ID_DEL_VIDEO3/view" target="_blank">📙 Video 3: Registro de ingresos</a>
+    </div>
+  </div>
+
+  <script>
+    function verificarCodigo() {
+      const input = document.getElementById("codigo").value;
+      const codigoCorrecto = "contalento2025"; // <- cámbialo por el código que tú quieras
+
+      if (input === codigoCorrecto) {
+        document.getElementById("videos").style.display = "block";
+      } else {
+        alert("Código incorrecto. Intenta nuevamente.");
+      }
+    }
+  </script>
+
+</body>
+</html>
