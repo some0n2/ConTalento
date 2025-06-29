@@ -2,34 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ConTalento - Curso Virtual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso ConTalento</title>
   <style>
     body {
       background: #f0f4f8;
       font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
     }
-
     .card {
       background: #ffffff;
       padding: 40px;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       width: 90%;
-      max-width: 400px;
+      max-width: 500px;
       text-align: center;
     }
-
-    h1 {
-      color: #333;
-    }
-
     input {
       padding: 10px;
       width: 80%;
@@ -37,7 +32,6 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
-
     button {
       background-color: #0066cc;
       color: white;
@@ -46,17 +40,15 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
+      margin-top: 10px;
     }
-
     button:hover {
       background-color: #004999;
     }
-
-    .video-list {
+    .video-list, .cert-form, .certificado {
       display: none;
       margin-top: 20px;
     }
-
     .video-list a {
       display: block;
       margin: 10px 0;
@@ -64,14 +56,16 @@
       text-decoration: none;
       font-weight: bold;
     }
-
     .video-list a:hover {
       text-decoration: underline;
+    }
+    #certificadoCanvas {
+      border: 1px solid #ccc;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-
   <div class="card">
     <h1>Acceso al Curso Virtual</h1>
     <p>Ingresa tu código de acceso</p>
@@ -81,26 +75,85 @@
 
     <div class="video-list" id="videos">
       <h2>Contenido del Curso</h2>
-      <a href="https://drive.google.com/file/d/1_Kc2YmLXuO3twc8kXT_IwjMyfCrQ2r47/view?usp=sharing">📘 Video 1: Introducción a la Contabilidad Básica</a>
-      <a href="https://drive.google.com/file/d/1fAASfdWlJCEMLDzolua8L_oN8ewiVwDs/view?usp=sharing">📗 Video 2: Organiza tus Finanzas: Registro Contable Simples</a>
-      <a href="https://drive.google.com/file/d/16mPvGdFUSvVSJZ84Y6nrZco2jYaUfb59/view?usp=sharing">📙 Video 3: Kardex Básico: Control práctico de inventarios</a>
-      <a href="https://drive.google.com/file/d/1y3DtlM028WLh_UtRRT8Dbl5kLbLzmHW_/view?usp=sharing">📕 Video 4: Impuestos esenciales para pequeños negocios en Perú</a>
+      <a href="#" onclick="marcarVideo(0)">📘 Video 1: Introducción</a>
+      <a href="#" onclick="marcarVideo(1)">📗 Video 2: Registro Contable</a>
+      <a href="#" onclick="marcarVideo(2)">📙 Video 3: Kardex</a>
+      <a href="#" onclick="marcarVideo(3)">📕 Video 4: Impuestos</a>
+    </div>
 
+    <div class="cert-form" id="certForm">
+      <p>🎉 Has visto todos los videos. Escribe tu nombre para generar tu certificado.</p>
+      <input type="text" id="nombre" placeholder="Tu nombre completo">
+      <br>
+      <button onclick="generarCertificado()">Generar Certificado</button>
+    </div>
+
+    <div class="certificado" id="certificado">
+      <canvas id="certificadoCanvas" width="800" height="600"></canvas>
+      <br>
+      <button onclick="descargarCertificado()">Descargar Certificado</button>
     </div>
   </div>
 
   <script>
+    const codigoCorrecto = "contalento2025";
+    const vistos = [false, false, false, false];
+
     function verificarCodigo() {
       const input = document.getElementById("codigo").value;
-      const codigoCorrecto = "contalento2025"; // <- cámbialo por el código que tú quieras
-
       if (input === codigoCorrecto) {
         document.getElementById("videos").style.display = "block";
       } else {
         alert("Código incorrecto. Intenta nuevamente.");
       }
     }
-  </script>
 
+    function marcarVideo(i) {
+      vistos[i] = true;
+      if (vistos.every(v => v)) {
+        document.getElementById("certForm").style.display = "block";
+      }
+    }
+
+    function generarCertificado() {
+      const nombre = document.getElementById("nombre").value.trim();
+      if (!nombre) return alert("Por favor, ingresa tu nombre.");
+
+      const canvas = document.getElementById("certificadoCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Fondo
+      ctx.fillStyle = "#fffaf0";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Título
+      ctx.fillStyle = "#333";
+      ctx.font = "30px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("CERTIFICADO DE PARTICIPACIÓN", canvas.width / 2, 100);
+
+      // Nombre
+      ctx.font = "24px Arial";
+      ctx.fillText("Otorgado a: " + nombre, canvas.width / 2, 200);
+
+      // Curso
+      ctx.font = "20px Arial";
+      ctx.fillText("Por completar el curso 'ConTalento'", canvas.width / 2, 270);
+
+      // Fecha
+      ctx.fillText("Fecha: 30 de junio de 2025", canvas.width / 2, 340);
+
+      // Mostrar certificado
+      document.getElementById("certificado").style.display = "block";
+    }
+
+    function descargarCertificado() {
+      const canvas = document.getElementById("certificadoCanvas");
+      const enlace = document.createElement('a');
+      enlace.download = 'certificado_contalento.png';
+      enlace.href = canvas.toDataURL();
+      enlace.click();
+    }
+  </script>
 </body>
 </html>
